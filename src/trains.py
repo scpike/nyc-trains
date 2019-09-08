@@ -9,6 +9,7 @@ import os
 
 static_path = os.path.abspath(os.path.dirname(__file__)) + '/../web/'
 app = Flask(__name__, static_folder=static_path, static_url_path="/assets")
+last_refresh = None
 
 dbfile = os.environ['TRAINS_DBFILE']
 
@@ -28,9 +29,13 @@ def home():
 
 @app.route('/trains.json')
 def trains():
+    global last_refresh
     latitude = request.args.get('latitude')
     longitude = request.args.get('longitude')
-    mta_client.refresh(dbfile)
+    if (last_refresh == None or
+        (datetime.now() - last_refresh).total_seconds() > 5):
+        mta_client.refresh(dbfile)
+        last_refresh = datetime.now()
 
     conn = sqlite3.connect(dbfile)
     dbcursor = conn.cursor()
