@@ -1,6 +1,6 @@
 This is an inverted version of the MTA's subway time
 (http://subwaytime.mta.info/). It uses your browser's location to find
-nearby stations.
+nearby stations. Check it out at https://scpike.net/trains
 
 You need an API key from http://datamine.mta.info/ to use this.
 
