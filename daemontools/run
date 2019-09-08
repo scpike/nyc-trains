@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "Booting up"
+exec 2>&1
+
+source /home/spike/apps/trains/venv/bin/activate
+cd /home/spike/apps/trains/src
+
+exec setuidgid spike \
+     envdir /home/spike/services/trains/env gunicorn -w 1 -b 127.0.0.1:8893 trains:app
